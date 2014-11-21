@@ -1,0 +1,27 @@
+<html>
+<style>
+        body {
+            font-family: "Open Sans", "Proxima Nova", "Helvetica", "Arial", sans-serif;
+            position: relative;
+            padding: 0;
+            margin: 0;
+            width: 1280px;
+            height: 800px;
+        }
+</style>
+<body>
+<div id="container">
+</div>
+</body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+  $("#container").load("/index/{{ room }}");
+  setInterval(function() {
+    $("#container").load("/index/{{ room }}");
+  }, 10000);
+</script>
+
+
+</html>
