@@ -3,7 +3,14 @@ google-calendar-display
 
 A very simple web service to display conference room status outside the room. Useful to indicate which rooms are free or booked. Created as part of a Course Hero hackathon in November 2014.
 
-The service is a Flask app, written in Python, intended to be viewed from a web browser (in fullscreen or kiosk mode) on a tablet. The tablet could be mounted on the wall or window outside a room.
+The service is a Flask app, written in Python, intended to be viewed from a web browser (in fullscreen or kiosk mode) on a tablet. The tablet could be mounted on the wall or window outside a room. For example, here's a prototype mounted on the Superman conference room at Course Hero:
+
+![](https://github.com/course-hero/google-calendar-display/blob/master/calendar-display.jpg)
+
+Here's a screenshot of the app, when the room is free, and shows two upcoming events:
+
+![](https://github.com/course-hero/google-calendar-display/blob/master/screenshot-free.png)
+
 
 Installation
 -------------
