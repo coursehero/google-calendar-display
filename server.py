@@ -143,7 +143,6 @@ def index(room_id=None):
     events = get_events()
 
     return render_template('index.html', 
-        #room=events['room'], 
         status=events['status'], 
         events=events['events'], 
         next_start_str=events['next_start_str'], 
@@ -153,8 +152,57 @@ def index(room_id=None):
     )
 
 @app.route('/<room_id>')
-def main(room_id='Superman'):
+def main(room_id):
   return render_template('main.html', room=room_id)
+
+# This method has a very sub-optimal approach to time zones.
+@app.route('/calendars')
+def calendars():
+    calendars = {}
+    items = []
+    free_rooms = []
+    events = []
+    upcoming = []
+
+    now = la.localize(datetime.now())
+    start_time = now - timedelta(hours=8)
+    end_time = start_time + timedelta(hours=8)
+
+    calendar_list = service.calendarList().list().execute()
+    for calendar_list_entry in calendar_list['items']:
+        if calendar_list_entry['id'] not in calendar_config.EXCLUSIONS:
+            calendars[calendar_list_entry['id']] = calendar_list_entry['summary']
+            items.append({'id': calendar_list_entry['id']})
+            free_rooms.append(calendar_list_entry['id'])
+
+    free_busy = service.freebusy().query(body={"timeMin": start_time.isoformat(), 
+        "timeMax": end_time.isoformat(), 
+        "items":items}).execute()
+
+    for calendar in free_busy['calendars']:
+        data = free_busy['calendars'][calendar]
+        if data['busy']:
+            busy = data['busy'][0]
+            start = dateutil.parser.parse(busy['start']) - timedelta(hours=8)
+            end = dateutil.parser.parse(busy['end']) - timedelta(hours=8)
+            diff = start - (now - timedelta(hours=16))
+
+            event = {'room': calendars[calendar], 
+                     'start': start.strftime("%l:%M%p"), 
+                     'end': end.strftime("%l:%M%p")}
+
+            if diff < timedelta(minutes=5):
+                events.append(event)
+                free_rooms.remove(calendar)
+            elif diff < timedelta(minutes=35):
+                upcoming.append(event)
+                free_rooms.remove(calendar)
+
+    return render_template('calendars.html', 
+                           events=events, 
+                           upcoming=upcoming,
+                           now=start_time.strftime("%A %e %B %Y, %l:%M%p"),
+                           free_rooms=[calendars[f] for f in free_rooms])
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

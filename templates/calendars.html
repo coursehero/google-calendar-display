@@ -1,0 +1,59 @@
+<html>
+<style>
+    body, table {
+        font-family: "Open Sans", "Proxima Nova", "Helvetica", "Arial", sans-serif;
+        position: relative;
+        padding: 0;
+        margin: 0;
+        font-size: 24px;
+    }
+    body {
+        padding: 20px;
+    }
+    th, td {
+        text-align: left;
+        padding: 5px;
+        padding-right: 20px;
+    }
+    .busy {
+        color: #f33;
+        font-weight: bold;
+    }
+    .free {
+        color: #363;
+    }
+    .upcoming {
+        color: #f33;
+    }
+</style>
+
+<body>
+
+<h1>Calendar dashboard</h1>
+
+<table>
+    <tr>
+      <td colspan="2">{{ now }} </td>
+    </tr>
+    {% for event in events %}
+        <tr>
+          <td><b>{{ event['room'] }}</b></td>
+          <td class="busy">Booked now until {{ event['end'] }}</td>
+        </tr>
+    {% endfor %}
+    {% for event in upcoming %}
+        <tr>
+          <td><b>{{ event['room'] }}</b></td>
+          <td class="upcoming">Booked from {{ event['start'] }} until {{ event['end'] }}</td>
+        </tr>
+    {% endfor %}
+    {% for room in free_rooms %}
+        <tr>
+          <td>{{ room }}</td>
+          <td class="free"></td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
