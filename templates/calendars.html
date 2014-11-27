@@ -10,6 +10,10 @@
     body {
         padding: 20px;
     }
+    a {
+        text-decoration: none;
+        color: #0aaae7;
+    }
     th, td {
         text-align: left;
         padding: 5px;
@@ -37,19 +41,19 @@
     </tr>
     {% for event in events %}
         <tr>
-          <td><b>{{ event['room'] }}</b></td>
+          <td><b><a href='/{{ event['room']|urlencode }}'>{{ event['room'] }}</a></b></td>
           <td class="busy">Booked now until {{ event['end'] }}</td>
         </tr>
     {% endfor %}
     {% for event in upcoming %}
         <tr>
-          <td><b>{{ event['room'] }}</b></td>
+          <td><b><a href='/{{ event['room']|urlencode }}'>{{ event['room'] }}</a></b></td>
           <td class="upcoming">Booked from {{ event['start'] }} until {{ event['end'] }}</td>
         </tr>
     {% endfor %}
     {% for room in free_rooms %}
         <tr>
-          <td>{{ room }}</td>
+          <td><a href='/{{ room|urlencode }}'>{{ room }}</a></td>
           <td class="free"></td>
         </tr>
     {% endfor %}

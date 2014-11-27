@@ -17,9 +17,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 <script>
-  $("#container").load("/index/{{ room }}");
+  $("#container").load("/index/{{ room|urlencode }}");
   setInterval(function() {
-    $("#container").load("/index/{{ room }}");
+    $("#container").load("/index/{{ room|urlencode }}");
   }, 10000);
 </script>
 
