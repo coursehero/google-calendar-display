@@ -41,4 +41,9 @@ Using default Flask settings, you would access the app at:
 http://<YOUR IP ADDRESS>:5000/<ROOM ID>
 ```
 
+And you can see a status list for all conference rooms here:
+```
+http://<YOUR IP ADDRESS>:5000/calendars
+```
+
 Or you could configure it to run through a webserver, and on a different port, such as 80.
